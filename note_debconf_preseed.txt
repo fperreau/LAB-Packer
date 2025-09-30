@@ -1,0 +1,38 @@
+https://www.debian.org/releases/stable/amd64/ch05s01.fr.html
+
+menuentry 'New Install' {
+insmod part_msdos
+insmod ext2
+set root='(hd0,msdos1)'
+linux /boot/newinstall/vmlinuz
+initrd /boot/newinstall/initrd.gz
+}
+
+https://www.debian.org/releases/stable/amd64/ch05s03.fr.html
+console=ttyS0,9600n8 TERM=linux
+
+[debconf/]priority=critical
+DEBIAN_FRONTEND=text
+BOOT_DEBUG=1
+[preseed/]url=
+
+language=fr country=FR locale=fr_FR.utf8
+
+https://www.debian.org/releases/stable/amd64/apbs02.fr.html#preseed-auto
+
+auto[-install/enable]
+
+# Pour choisir la langue française et la France comme pays :
+/install.amd/vmlinuz vga=788 initrd=/install.amd/gtk/initrd.gz language=fr country=FR --- quiet
+# Pour choisir la langue anglaise, l'Allemagne comme pays et utiliser un clavier allemand :
+/install.amd/vmlinuz vga=788 initrd=/install.amd/gtk/initrd.gz language=en country=DE locale=en_US.UTF-8 keymap=de --- quiet
+# Pour installer le bureau MATE :
+/install.amd/vmlinuz vga=788 initrd=/install.amd/gtk/initrd.gz desktop=mate-desktop --- quiet
+# Pour installer la tâche de serveur web :
+/install.amd/vmlinuz initrd=/install.amd/initrd.gz tasksel:tasksel/first=web-server ---
+
+
+https://www.debian.org/releases/stable/amd64/ch04s05.fr.html
+Préparer les fichiers pour amorcer depuis le réseau avec TFTP
+
+
