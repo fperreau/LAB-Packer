@@ -68,16 +68,17 @@ source "hyperv-iso" "debian-trixie" {
   enable_secure_boot    = false
   http_directory        = "./http"
   boot_command = [
-    "<esc><wait10><esc><esc><enter><wait>",
+    "<esc><esc><enter><wait>",
+    "install",
 #   "auto<wait>",
-    "linux /install/vmlinuz<wait>",
-    " auto-install/enable=true",
-    " debconf/priority=critical",
+#   "linux /install/vmlinuz<wait>",
+#   " auto-install/enable=true",
+#   " debconf/priority=critical",
     " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
 #   " preseed/url/checksum=1B837F67273C6C72BA86D21DA7A14C9B<wait>",
-    " initrd=/install/initrd.gz<enter>",
+#   " initrd=/install/initrd.gz<enter>",
 #   " -- <wait>",
-    "boot<enter>"
+    "<enter><wait>"
   ]
   shutdown_command      = "echo 'packer' | sudo -S -E shutdown -P now"
   communicator          = "ssh"

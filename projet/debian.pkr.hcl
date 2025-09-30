@@ -15,22 +15,14 @@ variable "vm_cpu" {
 
 variable "iso_url" {
   type = string
-  default = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.1.0-amd64-netinst.iso"
+  default = "https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/debian-live-13.1.0-amd64-standard.iso"
+# default = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.1.0-amd64-netinst.iso"
 }
 
 variable "iso_checksum" {
   type = string
-  default = "sha256:658b28e209b578fe788ec5867deebae57b6aac5fce3692bbb116bab9c65568b3"
-}
-
-variable "preseed_file" {
-  type = string
-  default = "pressed.cfg"
-}
-
-variable "preseed_checksum" {
-  type = string
-  default = ""
+  default = "sha256:74D637FC3C368733B1529270A7FDFD382CB711FA02F709BB7DE26D4FCED80104"
+#  default = "sha256:658b28e209b578fe788ec5867deebae57b6aac5fce3692bbb116bab9c65568b3"
 }
 
 variable "vm_name" {
@@ -52,6 +44,14 @@ locals {
 }
 
 source "hyperv-iso" "debian-trixie" {
+
+  boot_command = [
+    "<down><down><enter><wait>",
+    "<down><down><down><down><down><enter><wait30>",
+    "http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
+    "<enter>"
+  ]
+
   iso_url               = var.iso_url
   iso_checksum          = var.iso_checksum
   iso_target_path       = "../iso"
@@ -66,19 +66,7 @@ source "hyperv-iso" "debian-trixie" {
   enable_dynamic_memory = true
   generation            = 2
   enable_secure_boot    = false
-  http_directory        = "./http"
-  boot_command = [
-    "<esc><wait10><esc><esc><enter><wait>",
-#   "auto<wait>",
-    "linux /install/vmlinuz<wait>",
-    " auto-install/enable=true",
-    " debconf/priority=critical",
-    " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
-#   " preseed/url/checksum=1B837F67273C6C72BA86D21DA7A14C9B<wait>",
-    " initrd=/install/initrd.gz<enter>",
-#   " -- <wait>",
-    "boot<enter>"
-  ]
+  http_directory        = "http"
   shutdown_command      = "echo 'packer' | sudo -S -E shutdown -P now"
   communicator          = "ssh"
   ssh_username          = "root"
