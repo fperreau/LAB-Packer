@@ -15,19 +15,24 @@ variable "vm_cpu" {
 
 variable "iso_url" {
   type = string
-  default = "https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/debian-live-13.1.0-amd64-standard.iso"
-# default = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.1.0-amd64-netinst.iso"
+# default = "https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/debian-live-13.1.0-amd64-standard.iso"
+  default = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.1.0-amd64-netinst.iso"
 }
 
 variable "iso_checksum" {
   type = string
-  default = "sha256:74D637FC3C368733B1529270A7FDFD382CB711FA02F709BB7DE26D4FCED80104"
-#  default = "sha256:658b28e209b578fe788ec5867deebae57b6aac5fce3692bbb116bab9c65568b3"
+# default = "sha256:74D637FC3C368733B1529270A7FDFD382CB711FA02F709BB7DE26D4FCED80104"
+  default = "sha256:658b28e209b578fe788ec5867deebae57b6aac5fce3692bbb116bab9c65568b3"
 }
 
 variable "vm_name" {
   type = string
   default = "debian-trixie"
+}
+
+variable "vm_switch" {
+  type = string
+  default = "Default Switch"
 }
 
 packer {
@@ -46,10 +51,13 @@ locals {
 source "hyperv-iso" "debian-trixie" {
 
   boot_command = [
-    "<down><down><enter><wait>",
-    "<down><down><down><down><down><enter><wait30>",
-    "http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
-    "<enter>"
+    "<esc>c<wait>",
+    "linux /install.amd/vmlinuz auto=true priority=critical vga=1024 fb=false ",
+    "locale=en_US keymap=fr(latin9) debconf/frontend=noninteractive ",
+    "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
+    "hostname={{ .Name }} domain=local<enter>",
+    "initrd /install.amd/initrd.gz<enter>",
+    "boot<enter>"
   ]
 
   iso_url               = var.iso_url
@@ -58,7 +66,7 @@ source "hyperv-iso" "debian-trixie" {
   output_directory      = "../out"
   boot_wait             = "10s"
   vm_name               = var.vm_name
-  switch_name           = "Default Switch"
+  switch_name           = var.vm_switch
   disk_block_size       = 1
   disk_size             = var.disk_size
   cpus                  = var.vm_cpu
@@ -70,7 +78,7 @@ source "hyperv-iso" "debian-trixie" {
   shutdown_command      = "echo 'packer' | sudo -S -E shutdown -P now"
   communicator          = "ssh"
   ssh_username          = "root"
-  ssh_password          = "debianrootpassword"
+  ssh_password          = "cendar"
   ssh_timeout           = "60m"
 }
 
