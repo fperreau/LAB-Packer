@@ -1,4 +1,6 @@
-projet/packer_cache
-iso
-out
+packer_cache
+output-debian
+output-debian-trixie
 bak
+old
+iso
