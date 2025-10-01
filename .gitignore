@@ -1,6 +1,5 @@
 packer_cache
-output-debian
-output-debian-trixie
+build
 bak
 old
 iso
