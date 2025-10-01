@@ -20,7 +20,7 @@ language=fr country=FR locale=fr_FR.utf8
 
 https://www.debian.org/releases/stable/amd64/apbs02.fr.html#preseed-auto
 
-auto[-install/enable]
+auto[-install/enable]=true
 
 # Pour choisir la langue française et la France comme pays :
 /install.amd/vmlinuz vga=788 initrd=/install.amd/gtk/initrd.gz language=fr country=FR --- quiet

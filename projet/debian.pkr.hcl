@@ -54,9 +54,10 @@ locals {
 source "hyperv-iso" "debian-trixie" {
    boot_command = [
      "<esc>c<wait>",
-     "linux /install.amd/vmlinuz auto=true priority=critical vga=1024 locale=en_US keymap=fr ",
+     "linux /install.amd/vmlinuz auto=true priority=critical ",
+     "vga=1024 locale=en_US country=FR keymap=fr ",
      "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
-     "hostname={{ .Name }} domain={{ var.domain }} --- quiet<enter>",
+     "hostname={{ .Name }} --- quiet<enter>",
      "initrd /install.amd/initrd.gz<enter>",
      "boot<enter><wait>"
    ]
