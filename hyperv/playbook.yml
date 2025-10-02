@@ -1,0 +1,11 @@
+- name: Provision Debian
+  hosts: all
+  become: true
+  roles:
+    - role: common
+      vars:
+        ssh_public_key_file: ../conf/id_rsa.pub
+        username: perreau
+  # - role: security
+  # - role: docker
+    
