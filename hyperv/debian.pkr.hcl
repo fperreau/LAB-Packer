@@ -15,8 +15,7 @@ variable "vm_cpu" {
 
 variable "iso_url" {
   type = string
-#  default = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.1.0-amd64-netinst.iso"
-  default = "file://C/Users/FredericPerreau/Downloads/debian-13.1.0-amd64-netinst.iso"
+  default = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.1.0-amd64-netinst.iso"
 }
 
 variable "iso_checksum" {
@@ -65,7 +64,7 @@ source "hyperv-iso" "debian-trixie" {
   iso_url               = var.iso_url
   iso_checksum          = var.iso_checksum
   output_directory      = "build"
-  boot_wait             = "1s"
+  boot_wait             = "10s"
   vm_name               = var.vm_name
   switch_name           = var.vm_switch
   disk_block_size       = 1
@@ -87,10 +86,11 @@ source "hyperv-iso" "debian-trixie" {
 build {
   sources = ["source.hyperv-iso.debian-trixie"]
 
-  provisioner "ansible" {
-    playbook_file = "./playbook.yml"
-    extra_arguments = [
-      "--extra-vars", "ansible_become_method=su"
-    ]
-  }
+#  provisioner "ansible" {
+#    playbook_file = "./playbook.yml"
+#   extra_arguments = [
+#     "--extra-vars", "ansible_become_method=su"
+#   ]
+#  }
+
 }
