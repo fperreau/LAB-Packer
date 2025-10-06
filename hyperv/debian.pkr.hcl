@@ -15,7 +15,12 @@ variable "vm_cpu" {
 
 variable "iso_url" {
   type = string
+<<<<<<< HEAD
   default = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.1.0-amd64-netinst.iso"
+=======
+#  default = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.1.0-amd64-netinst.iso"
+  default = "file://home/perreau/iso/FredericPerreau/Downloads/debian-13.1.0-amd64-netinst.iso"
+>>>>>>> aaebaf93e251d46c54efff75fc195b15d6ad2d88
 }
 
 variable "iso_checksum" {
